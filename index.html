@@ -1,378 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Grocery Store App — Roopa Srinivas</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green: #1A3C2E;
+  --green-mid: #2D6A4F;
+  --green-light: #52B788;
+  --cream: #F4F0E8;
+  --ink: #111109;
+  --muted: #6B6B5A;
+  --border: rgba(26,60,46,0.15);
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--cream); color: var(--ink); font-size: 16px; line-height: 1.7; }
 
-  :root {
-    --green: #2d6a4f;
-    --green-mid: #40916c;
-    --green-light: #74c69d;
-    --green-pale: #d8f3dc;
-    --cream: #faf7f2;
-    --warm-white: #fffef9;
-    --brown: #5c4033;
-    --text: #1a1a1a;
-    --text-muted: #6b6b6b;
-    --border: #e8e0d4;
-  }
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 3rem;
+  background: rgba(244,240,232,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: var(--serif); font-size: 1.25rem; color: var(--ink); text-decoration: none; letter-spacing: 0.01em; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.875rem; font-weight: 400; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--green-mid); }
 
-  html { scroll-behavior: smooth; }
+section { padding: 7rem 0; }
+.container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    line-height: 1.6;
-  }
+#hero { min-height: 100vh; display: flex; align-items: center; padding-top: 5rem; background: var(--green); position: relative; overflow: hidden; }
+#hero::before { content: ''; position: absolute; top: -120px; right: -120px; width: 520px; height: 520px; border-radius: 50%; background: var(--green-mid); opacity: 0.4; pointer-events: none; }
+#hero::after { content: ''; position: absolute; bottom: -80px; left: -80px; width: 300px; height: 300px; border-radius: 50%; background: var(--green-light); opacity: 0.15; pointer-events: none; }
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1rem 2.5rem;
-    background: rgba(250, 247, 242, 0.92);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--green); text-decoration: none; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--green); }
+.hero-eyebrow { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-light); margin-bottom: 1.25rem; }
+.hero-name { font-family: var(--serif); font-size: clamp(2.5rem, 7vw, 5rem); line-height: 1.05; color: var(--cream); margin-bottom: 1.5rem; }
+.hero-name em { font-style: italic; color: var(--green-light); }
+.hero-desc { font-size: 1.125rem; color: rgba(244,240,232,0.75); max-width: 520px; margin-bottom: 2.5rem; font-weight: 300; line-height: 1.75; }
+.hero-links { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 4rem;
-    padding: 8rem 5rem 6rem;
-    max-width: 1300px;
-    margin: 0 auto;
-  }
-  .hero-tag {
-    display: inline-block;
-    background: var(--green-pale);
-    color: var(--green);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.35rem 0.9rem;
-    border-radius: 999px;
-    margin-bottom: 1.5rem;
-  }
-  .hero h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.8rem, 5vw, 4.2rem);
-    line-height: 1.1;
-    color: var(--text);
-    margin-bottom: 1.5rem;
-  }
-  .hero h1 em { color: var(--green-mid); font-style: italic; }
-  .hero p {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    max-width: 480px;
-    margin-bottom: 2.5rem;
-    line-height: 1.7;
-  }
-  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--green);
-    color: white;
-    padding: 0.8rem 1.8rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .btn-primary:hover { background: var(--green-mid); transform: translateY(-1px); }
-  .btn-ghost {
-    border: 1.5px solid var(--border);
-    color: var(--text);
-    padding: 0.8rem 1.8rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: border-color 0.2s, transform 0.15s;
-  }
-  .btn-ghost:hover { border-color: var(--green-light); transform: translateY(-1px); }
+.btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.6rem; border-radius: 100px; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+.btn-primary { background: var(--green-light); color: var(--green); border: 1.5px solid var(--green-light); }
+.btn-primary:hover { background: #74C69D; border-color: #74C69D; }
+.btn-ghost { background: transparent; color: var(--cream); border: 1.5px solid rgba(244,240,232,0.35); }
+.btn-ghost:hover { border-color: var(--cream); background: rgba(244,240,232,0.08); }
+.btn-dark { background: var(--green); color: var(--cream); border: 1.5px solid var(--green); }
+.btn-dark:hover { background: var(--green-mid); border-color: var(--green-mid); }
+.btn-outline-dark { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
+.btn-outline-dark:hover { background: var(--green); color: var(--cream); }
 
-  /* HERO VISUAL */
-  .hero-visual {
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.06);
-  }
-  .db-bar {
-    background: var(--green);
-    padding: 0.8rem 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .db-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .db-bar-title { color: white; font-size: 0.8rem; font-weight: 500; margin-left: 0.5rem; opacity: 0.9; }
-  .db-body { padding: 1.5rem; }
-  .db-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-  .db-table th {
-    text-align: left; padding: 0.5rem 0.75rem;
-    background: var(--green-pale); color: var(--green);
-    font-weight: 600; font-size: 0.72rem; letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--border);
-  }
-  .db-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #f0ece6; color: var(--text); }
-  .db-table tr:last-child td { border-bottom: none; }
-  .db-table tr:hover td { background: var(--green-pale); }
-  .stock-badge {
-    display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px;
-    font-size: 0.68rem; font-weight: 600;
-  }
-  .in-stock { background: #d8f3dc; color: #2d6a4f; }
-  .low-stock { background: #fff3cd; color: #856404; }
-  .out-stock { background: #fde8e8; color: #b91c1c; }
-  .db-query {
-    margin-top: 1rem;
-    background: #1a1a1a;
-    border-radius: 8px;
-    padding: 0.9rem 1rem;
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
-    color: #a3e635;
-    line-height: 1.6;
-  }
-  .db-query .kw { color: #60a5fa; }
-  .db-query .str { color: #f9a8d4; }
+.section-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green-mid); margin-bottom: 0.75rem; }
+.section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.15; color: var(--ink); margin-bottom: 3rem; }
+.section-title em { font-style: italic; color: var(--green-mid); }
+.section-sub { font-size: 0.95rem; font-weight: 300; color: var(--muted); max-width: 520px; line-height: 1.8; margin-bottom: 2rem; }
 
-  /* STATS */
-  .stats-strip {
-    background: var(--green);
-    padding: 2.5rem 5rem;
-    display: flex; justify-content: center; gap: 5rem;
-  }
-  .stat { text-align: center; }
-  .stat-num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: white; }
-  .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.stats-strip { background: rgba(26,60,46,0.08); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.5rem 3rem; display: flex; justify-content: center; gap: 5rem; flex-wrap: wrap; }
+.stat { text-align: center; }
+.stat-num { font-family: var(--serif); font-size: 2.5rem; color: var(--green); line-height: 1; margin-bottom: 0.3rem; }
+.stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
 
-  /* SECTION SHARED */
-  section { padding: 6rem 5rem; max-width: 1300px; margin: 0 auto; }
-  .section-tag {
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--green-mid); margin-bottom: 0.75rem;
-  }
-  .section-heading {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 3.5vw, 2.8rem);
-    line-height: 1.2; margin-bottom: 1rem;
-  }
-  .section-heading em { color: var(--green-mid); font-style: italic; }
-  .section-sub { color: var(--text-muted); font-size: 1.05rem; max-width: 560px; line-height: 1.7; }
+#features { background: #fff; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.feature-card { padding: 1.75rem; border: 1px solid var(--border); border-radius: 2px; background: var(--cream); transition: border-color 0.2s, transform 0.2s; }
+.feature-card:hover { border-color: var(--green-mid); transform: translateY(-2px); }
+.feature-icon { font-size: 1.6rem; margin-bottom: 0.9rem; }
+.feature-title { font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; }
+.feature-desc { font-size: 0.875rem; color: var(--muted); font-weight: 300; line-height: 1.7; }
 
-  /* FEATURES */
-  #features { background: var(--warm-white); padding: 6rem 5rem; max-width: 100%; }
-  #features .inner { max-width: 1300px; margin: 0 auto; }
-  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 3.5rem; }
-  .feature-card {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.8rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .feature-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.07); }
-  .feature-icon { font-size: 1.8rem; margin-bottom: 1rem; }
-  .feature-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
-  .feature-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+#how { background: var(--cream); }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.step-num { font-family: var(--serif); font-size: 3rem; color: rgba(82,183,136,0.2); line-height: 1; margin-bottom: 0.75rem; }
+.step-title { font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; }
+.step-desc { font-size: 0.875rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
 
-  /* HOW IT WORKS */
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 3.5rem; }
-  .step { position: relative; }
-  .step-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 3rem; color: var(--green-pale);
-    line-height: 1; margin-bottom: 0.5rem;
-  }
-  .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
-  .step p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+#demo { background: #fff; }
+.demo-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.demo-tab { padding: 0.45rem 1.1rem; font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; border: 1px solid var(--border); border-radius: 100px; cursor: pointer; color: var(--muted); background: transparent; transition: all 0.2s; font-family: var(--sans); }
+.demo-tab.active, .demo-tab:hover { background: var(--green); color: var(--cream); border-color: var(--green); }
+.demo-panel { display: none; }
+.demo-panel.active { display: block; }
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+th { text-align: left; padding: 0.6rem 1rem; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
+td { padding: 0.65rem 1rem; border-bottom: 1px solid rgba(26,60,46,0.07); color: var(--ink); }
+tr:last-child td { border-bottom: none; }
+.badge { display: inline-block; font-size: 0.7rem; font-weight: 500; padding: 0.15rem 0.55rem; border-radius: 100px; }
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-yellow { background: #fef3c7; color: #92400e; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+.order-card { border: 1px solid var(--border); border-radius: 2px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: var(--cream); flex-wrap: wrap; }
+.order-id { font-weight: 500; font-size: 0.875rem; color: var(--ink); margin-bottom: 0.2rem; }
+.order-items { font-size: 0.8rem; color: var(--muted); }
+.order-meta { text-align: right; }
+.order-total { font-weight: 500; font-size: 0.9rem; color: var(--ink); }
+.code-block { background: #0D1F18; color: var(--green-light); border-radius: 2px; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.8; overflow-x: auto; margin-bottom: 1rem; }
+.code-block .comment { color: #52886a; }
+.code-success { font-size: 0.78rem; color: var(--green-light); padding: 0.5rem 0; }
 
-  /* TECH STACK */
-  #tech { background: var(--warm-white); padding: 6rem 5rem; max-width: 100%; }
-  #tech .inner { max-width: 1300px; margin: 0 auto; }
-  .tech-grid { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.5rem; }
-  .tech-pill {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: var(--cream); border: 1px solid var(--border);
-    border-radius: 999px; padding: 0.55rem 1.1rem;
-    font-size: 0.88rem; font-weight: 500;
-  }
-  .tech-pill .icon { font-size: 1rem; }
+#tech { background: var(--cream); }
+.tech-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+.tech-pill { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.1rem; background: white; border: 1px solid var(--border); border-radius: 100px; font-size: 0.85rem; color: var(--green); transition: border-color 0.2s, background 0.2s; }
+.tech-pill:hover { border-color: var(--green-mid); background: #EAF5EE; }
 
-  /* DEMO */
-  .demo-wrap {
-    background: #1a1a1a;
-    border-radius: 16px;
-    overflow: hidden;
-    margin-top: 3rem;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-  }
-  .demo-topbar {
-    background: #2a2a2a;
-    padding: 0.7rem 1.2rem;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .demo-dot { width: 12px; height: 12px; border-radius: 50%; }
-  .demo-tabs { display: flex; gap: 1rem; margin-left: 1.5rem; }
-  .demo-tab {
-    color: #888; font-size: 0.8rem; font-weight: 500;
-    padding: 0.3rem 0.8rem; border-radius: 6px;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .demo-tab.active { background: var(--green); color: white; }
-  .demo-body { padding: 1.5rem; }
-  .demo-panel { display: none; }
-  .demo-panel.active { display: block; }
+#cta { background: var(--cream); text-align: center; padding: 5rem 0; }
+#cta .section-title { margin: 0 auto 1rem; }
+#cta p { color: var(--muted); max-width: 480px; margin: 0 auto 2.5rem; font-weight: 300; line-height: 1.8; }
+.cta-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
-  /* Inventory panel */
-  .inv-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
-  .inv-header h4 { color: white; font-size: 0.95rem; font-weight: 600; }
-  .inv-search {
-    background: #2a2a2a; border: 1px solid #3a3a3a; border-radius: 6px;
-    padding: 0.4rem 0.8rem; color: #aaa; font-size: 0.8rem; width: 200px;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .inv-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-  .inv-table th { text-align: left; padding: 0.5rem 0.75rem; color: #666; font-weight: 500; border-bottom: 1px solid #2a2a2a; }
-  .inv-table td { padding: 0.6rem 0.75rem; color: #ccc; border-bottom: 1px solid #222; }
-  .inv-table tr:hover td { background: #222; }
+footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); text-align: center; padding: 1.5rem; font-size: 0.8rem; color: rgba(244,240,232,0.4); }
+footer a { color: rgba(244,240,232,0.6); text-decoration: none; }
+footer a:hover { color: var(--green-light); }
 
-  /* Orders panel */
-  .order-list { display: flex; flex-direction: column; gap: 0.75rem; }
-  .order-card {
-    background: #222; border-radius: 8px; padding: 1rem 1.2rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .order-id { color: var(--green-light); font-size: 0.8rem; font-weight: 600; }
-  .order-items { color: #aaa; font-size: 0.8rem; margin-top: 0.2rem; }
-  .order-total { color: white; font-weight: 600; font-size: 0.95rem; }
-  .order-status {
-    font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem;
-    border-radius: 999px; margin-top: 0.3rem; text-align: right;
-  }
-  .status-processing { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
-  .status-shipped { background: rgba(116, 198, 157, 0.15); color: #74c69d; }
-  .status-delivered { background: rgba(163, 230, 53, 0.1); color: #a3e635; }
-
-  /* SQL panel */
-  .sql-panel { font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.8; }
-  .sql-panel .kw { color: #60a5fa; }
-  .sql-panel .fn { color: #c084fc; }
-  .sql-panel .str { color: #f9a8d4; }
-  .sql-panel .cmt { color: #555; }
-  .sql-panel .num { color: #fde68a; }
-  .sql-result { margin-top: 1rem; border-top: 1px solid #2a2a2a; padding-top: 1rem; color: #74c69d; font-size: 0.78rem; }
-
-  /* FOOTER */
-  footer {
-    background: var(--green);
-    color: white;
-    text-align: center;
-    padding: 2.5rem;
-    font-size: 0.85rem;
-    opacity: 0.95;
-  }
-  footer a { color: var(--green-light); text-decoration: none; }
-
-  /* OPEN SOURCE */
-  .oss-wrap {
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 3rem;
-    margin-top: 3rem;
-    display: flex; justify-content: space-between; align-items: center; gap: 2rem;
-    flex-wrap: wrap;
-  }
-  .oss-wrap h3 { font-family: 'DM Serif Display', serif; font-size: 1.6rem; margin-bottom: 0.5rem; }
-  .oss-wrap p { color: var(--text-muted); font-size: 0.95rem; max-width: 460px; }
-  .oss-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
-
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; gap: 3rem; }
-    section { padding: 4rem 2rem; }
-    #features, #tech { padding: 4rem 2rem; }
-    .stats-strip { padding: 2rem; gap: 2rem; flex-wrap: wrap; }
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.2rem; }
-  }
+@media (max-width: 700px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.25rem; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .stats-strip { gap: 2.5rem; padding: 2rem; }
+  section { padding: 5rem 0; }
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.hero-eyebrow { animation: fadeUp 0.6s ease both; }
+.hero-name { animation: fadeUp 0.6s 0.1s ease both; }
+.hero-desc { animation: fadeUp 0.6s 0.2s ease both; }
+.hero-links { animation: fadeUp 0.6s 0.3s ease both; }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">Roopa Srinivas</a>
+  <a class="nav-logo" href="#">Grocery Store App</a>
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
     <li><a href="#demo">Demo</a></li>
     <li><a href="#tech">Tech Stack</a></li>
     <li><a href="mailto:roopasrinivas@berkeley.edu">Contact</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
-<div style="padding-top: 80px;">
-  <div class="hero">
-    <div class="hero-text">
-      <span class="hero-tag">Full-Stack · Database · Web App</span>
-      <h1>A grocery store that <em>actually</em> knows its inventory.</h1>
-      <p>A full-stack database application for managing grocery inventory and web orders — with a relational MySQL backend, Flask API, and a clean storefront interface.</p>
-      <div class="hero-btns">
-        <a href="#demo" class="btn-primary">Explore the app</a>
-        <a href="#features" class="btn-ghost">See features</a>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="db-bar">
-        <div class="db-dot" style="background:#ff5f57"></div>
-        <div class="db-dot" style="background:#ffbd2e"></div>
-        <div class="db-dot" style="background:#28ca41"></div>
-        <span class="db-bar-title">inventory · MySQL</span>
-      </div>
-      <div class="db-body">
-        <table class="db-table">
-          <thead>
-            <tr><th>ID</th><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>001</td><td>Organic Oats</td><td>Grains</td><td>$4.99</td><td>142</td><td><span class="stock-badge in-stock">In Stock</span></td></tr>
-            <tr><td>002</td><td>Almond Milk</td><td>Dairy Alt.</td><td>$3.49</td><td>8</td><td><span class="stock-badge low-stock">Low Stock</span></td></tr>
-            <tr><td>003</td><td>Roma Tomatoes</td><td>Produce</td><td>$1.29</td><td>0</td><td><span class="stock-badge out-stock">Out of Stock</span></td></tr>
-            <tr><td>004</td><td>Sourdough Loaf</td><td>Bakery</td><td>$5.49</td><td>34</td><td><span class="stock-badge in-stock">In Stock</span></td></tr>
-            <tr><td>005</td><td>Free Range Eggs</td><td>Dairy</td><td>$6.99</td><td>21</td><td><span class="stock-badge in-stock">In Stock</span></td></tr>
-          </tbody>
-        </table>
-        <div class="db-query">
-          <span class="kw">SELECT</span> product_name, stock_qty, price<br>
-          <span class="kw">FROM</span> inventory<br>
-          <span class="kw">WHERE</span> stock_qty <span class="kw">&lt;</span> <span class="str">10</span><br>
-          <span class="kw">ORDER BY</span> stock_qty <span class="kw">ASC</span>;
-        </div>
-      </div>
+<section id="hero">
+  <div class="container">
+    <p class="hero-eyebrow">Full-Stack · Database · Web App</p>
+    <h1 class="hero-name">A grocery store that<br><em>actually</em> knows its inventory.</h1>
+    <p class="hero-desc">A full-stack database application for managing grocery inventory and web orders — with a relational MySQL backend, Flask API, and a clean storefront interface.</p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="#demo">Explore the App</a>
+      <a class="btn btn-ghost" href="#features">See Features</a>
     </div>
   </div>
-</div>
+</section>
 
-<!-- STATS -->
 <div class="stats-strip">
   <div class="stat"><div class="stat-num">3-tier</div><div class="stat-label">Architecture</div></div>
   <div class="stat"><div class="stat-num">MySQL</div><div class="stat-label">Relational database</div></div>
@@ -380,223 +164,124 @@
   <div class="stat"><div class="stat-num">Full</div><div class="stat-label">CRUD operations</div></div>
 </div>
 
-<!-- FEATURES -->
-<div id="features" style="background: var(--warm-white); padding: 6rem 0;">
-  <div class="inner" style="max-width: 1300px; margin: 0 auto; padding: 0 5rem;">
-    <p class="section-tag">What it does</p>
-    <h2 class="section-heading">Built around the <em>database</em> — not bolted on top of it.</h2>
-    <p class="section-sub">Most apps treat the database as storage. Here, the relational schema is the foundation — enforcing data integrity, powering inventory logic, and making order management reliable.</p>
+<section id="features">
+  <div class="container">
+    <p class="section-label">What it does</p>
+    <h2 class="section-title">Built around the <em>database</em> —<br>not bolted on top of it.</h2>
     <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🗄️</div>
-        <h3>Relational MySQL schema</h3>
-        <p>Normalized tables for products, categories, customers, and orders — with foreign keys and constraints that keep data consistent across every operation.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔌</div>
-        <h3>Flask REST API</h3>
-        <p>A Python Flask backend bridges the database and the frontend — handling CRUD routes for inventory management and order processing cleanly and efficiently.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📦</div>
-        <h3>Inventory management</h3>
-        <p>Add, update, and remove products with real-time stock tracking. Low-stock items are flagged automatically so nothing runs out unnoticed.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛒</div>
-        <h3>Web order processing</h3>
-        <p>Customers can browse products and place orders through the storefront. Each order updates inventory atomically — no overselling, no race conditions.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <h3>Search & filter</h3>
-        <p>Query products by name, category, or price range. Backed by indexed SQL queries so results stay fast even as the catalog grows.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Order dashboard</h3>
-        <p>A management view surfaces all orders with status tracking — pending, shipped, delivered — so fulfillment is always visible at a glance.</p>
-      </div>
+      <div class="feature-card"><div class="feature-icon">🗄️</div><div class="feature-title">Relational MySQL Schema</div><p class="feature-desc">Normalized tables for products, categories, customers, and orders — with foreign keys and constraints that keep data consistent across every operation.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔌</div><div class="feature-title">Flask REST API</div><p class="feature-desc">A Python Flask backend bridges the database and the frontend — handling CRUD routes for inventory management and order processing cleanly and efficiently.</p></div>
+      <div class="feature-card"><div class="feature-icon">📦</div><div class="feature-title">Inventory Management</div><p class="feature-desc">Add, update, and remove products with real-time stock tracking. Low-stock items are flagged automatically so nothing runs out unnoticed.</p></div>
+      <div class="feature-card"><div class="feature-icon">🛒</div><div class="feature-title">Web Order Processing</div><p class="feature-desc">Customers can browse products and place orders through the storefront. Each order updates inventory atomically — no overselling, no race conditions.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔍</div><div class="feature-title">Search & Filter</div><p class="feature-desc">Query products by name, category, or price range. Backed by indexed SQL queries so results stay fast even as the catalog grows.</p></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><div class="feature-title">Order Dashboard</div><p class="feature-desc">A management view surfaces all orders with status tracking — pending, shipped, delivered — so fulfillment is always visible at a glance.</p></div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- HOW IT WORKS -->
 <section id="how">
-  <p class="section-tag">How it works</p>
-  <h2 class="section-heading">From storefront to database <em>in four steps.</em></h2>
-  <p class="section-sub">Every customer action — browsing, ordering, checking out — flows through the Flask API and lands in the database as a reliable, queryable record.</p>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">01</div>
-      <h3>Browse the catalog</h3>
-      <p>The storefront fetches products from the Flask API, which queries MySQL for current inventory, pricing, and availability in real time.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <h3>Add to cart & order</h3>
-      <p>Cart state is managed client-side. On checkout, the order payload is sent to the Flask API, which validates stock before writing to the orders table.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <h3>Database updates atomically</h3>
-      <p>A single transaction deducts stock and inserts the order record — so inventory is always accurate, even under concurrent requests.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <h3>Admin views & queries</h3>
-      <p>The management dashboard surfaces live inventory counts, order statuses, and low-stock alerts — all driven by SQL queries against the live database.</p>
+  <div class="container">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">From storefront to database<br><em>in four steps.</em></h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><div class="step-title">Browse the catalog</div><p class="step-desc">The storefront fetches products from the Flask API, which queries MySQL for current inventory, pricing, and availability in real time.</p></div>
+      <div class="step"><div class="step-num">02</div><div class="step-title">Add to cart & order</div><p class="step-desc">Cart state is managed client-side. On checkout, the order payload is sent to the Flask API, which validates stock before writing to the orders table.</p></div>
+      <div class="step"><div class="step-num">03</div><div class="step-title">Database updates atomically</div><p class="step-desc">A single transaction deducts stock and inserts the order record — so inventory is always accurate, even under concurrent requests.</p></div>
+      <div class="step"><div class="step-num">04</div><div class="step-title">Admin views & queries</div><p class="step-desc">The management dashboard surfaces live inventory counts, order statuses, and low-stock alerts — all driven by SQL queries against the live database.</p></div>
     </div>
   </div>
 </section>
 
-<!-- DEMO -->
-<section id="demo" style="padding-top: 0;">
-  <p class="section-tag">Demo</p>
-  <h2 class="section-heading">Explore the <em>interface.</em></h2>
-  <p class="section-sub">A walkthrough of the three core views: inventory management, order tracking, and the SQL queries powering it all.</p>
-  <div class="demo-wrap">
-    <div class="demo-topbar">
-      <div class="demo-dot" style="background:#ff5f57"></div>
-      <div class="demo-dot" style="background:#ffbd2e"></div>
-      <div class="demo-dot" style="background:#28ca41"></div>
-      <div class="demo-tabs">
-        <div class="demo-tab active" onclick="switchTab(this,'inventory')">Inventory</div>
-        <div class="demo-tab" onclick="switchTab(this,'orders')">Orders</div>
-        <div class="demo-tab" onclick="switchTab(this,'sql')">SQL queries</div>
-      </div>
+<section id="demo">
+  <div class="container">
+    <p class="section-label">Demo</p>
+    <h2 class="section-title">Explore the <em>interface.</em></h2>
+    <p class="section-sub">A walkthrough of the three core views: inventory management, order tracking, and the SQL queries powering it all.</p>
+    <div class="demo-tabs">
+      <button class="demo-tab active" onclick="showTab('inventory', this)">Inventory</button>
+      <button class="demo-tab" onclick="showTab('orders', this)">Orders</button>
+      <button class="demo-tab" onclick="showTab('sql', this)">SQL Queries</button>
     </div>
-    <div class="demo-body">
-
-      <div class="demo-panel active" id="panel-inventory">
-        <div class="inv-header">
-          <h4>Product inventory</h4>
-          <input class="inv-search" type="text" placeholder="🔍  Search products..." readonly>
-        </div>
-        <table class="inv-table">
-          <thead><tr><th>ID</th><th>Product</th><th>Category</th><th>Unit price</th><th>In stock</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td style="color:#555">001</td><td style="color:white">Organic Rolled Oats</td><td style="color:#888">Grains</td><td style="color:#74c69d">$4.99</td><td style="color:white">142</td><td><span class="stock-badge in-stock">In Stock</span></td></tr>
-            <tr><td style="color:#555">002</td><td style="color:white">Oat Almond Milk</td><td style="color:#888">Dairy Alt.</td><td style="color:#74c69d">$3.49</td><td style="color:#fde68a">8</td><td><span class="stock-badge low-stock">Low Stock</span></td></tr>
-            <tr><td style="color:#555">003</td><td style="color:white">Roma Tomatoes (lb)</td><td style="color:#888">Produce</td><td style="color:#74c69d">$1.29</td><td style="color:#f87171">0</td><td><span class="stock-badge out-stock">Out of Stock</span></td></tr>
-            <tr><td style="color:#555">004</td><td style="color:white">Artisan Sourdough</td><td style="color:#888">Bakery</td><td style="color:#74c69d">$5.49</td><td style="color:white">34</td><td><span class="stock-badge in-stock">In Stock</span></td></tr>
-            <tr><td style="color:#555">005</td><td style="color:white">Free Range Eggs (12)</td><td style="color:#888">Dairy</td><td style="color:#74c69d">$6.99</td><td style="color:white">21</td><td><span class="stock-badge in-stock">In Stock</span></td></tr>
-            <tr><td style="color:#555">006</td><td style="color:white">Heirloom Carrots</td><td style="color:#888">Produce</td><td style="color:#74c69d">$2.49</td><td style="color:white">67</td><td><span class="stock-badge in-stock">In Stock</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="demo-panel" id="panel-orders">
-        <div class="inv-header">
-          <h4 style="color:white">Web orders</h4>
-          <span style="color:#555; font-size:0.8rem">6 orders this week</span>
-        </div>
-        <div class="order-list">
-          <div class="order-card">
-            <div>
-              <div class="order-id">#ORD-2041</div>
-              <div class="order-items">Organic Oats × 2, Sourdough × 1, Eggs × 1</div>
-            </div>
-            <div style="text-align:right">
-              <div class="order-total">$22.46</div>
-              <div class="order-status status-delivered">Delivered</div>
-            </div>
-          </div>
-          <div class="order-card">
-            <div>
-              <div class="order-id">#ORD-2042</div>
-              <div class="order-items">Almond Milk × 3, Carrots × 2</div>
-            </div>
-            <div style="text-align:right">
-              <div class="order-total">$15.45</div>
-              <div class="order-status status-shipped">Shipped</div>
-            </div>
-          </div>
-          <div class="order-card">
-            <div>
-              <div class="order-id">#ORD-2043</div>
-              <div class="order-items">Sourdough × 2, Eggs × 2, Carrots × 1</div>
-            </div>
-            <div style="text-align:right">
-              <div class="order-total">$27.44</div>
-              <div class="order-status status-processing">Processing</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="demo-panel" id="panel-sql">
-        <div class="sql-panel" style="color:#ccc">
-          <div class="cmt">-- Get all low-stock items (under 10 units)</div>
-          <div><span class="kw">SELECT</span> p.product_name, p.stock_qty, c.category_name</div>
-          <div><span class="kw">FROM</span> products p</div>
-          <div><span class="kw">JOIN</span> categories c <span class="kw">ON</span> p.category_id = c.id</div>
-          <div><span class="kw">WHERE</span> p.stock_qty <span class="kw">&lt;</span> <span class="num">10</span></div>
-          <div><span class="kw">ORDER BY</span> p.stock_qty <span class="kw">ASC</span>;</div>
-          <br>
-          <div class="cmt">-- Place an order (atomic transaction)</div>
-          <div><span class="kw">START TRANSACTION</span>;</div>
-          <div><span class="kw">INSERT INTO</span> orders (customer_id, total) <span class="kw">VALUES</span> (<span class="num">44</span>, <span class="num">22.46</span>);</div>
-          <div><span class="kw">UPDATE</span> products <span class="kw">SET</span> stock_qty = stock_qty - <span class="num">2</span> <span class="kw">WHERE</span> id = <span class="num">1</span>;</div>
-          <div><span class="kw">COMMIT</span>;</div>
-          <br>
-          <div class="cmt">-- Revenue by category this week</div>
-          <div><span class="kw">SELECT</span> c.category_name, <span class="fn">SUM</span>(oi.qty * p.price) <span class="kw">AS</span> revenue</div>
-          <div><span class="kw">FROM</span> order_items oi</div>
-          <div><span class="kw">JOIN</span> products p <span class="kw">ON</span> oi.product_id = p.id</div>
-          <div><span class="kw">JOIN</span> categories c <span class="kw">ON</span> p.category_id = c.id</div>
-          <div><span class="kw">GROUP BY</span> c.category_name <span class="kw">ORDER BY</span> revenue <span class="kw">DESC</span>;</div>
-          <div class="sql-result">✓ Query executed · 4 rows returned · 2ms</div>
-        </div>
-      </div>
-
+    <div id="inventory" class="demo-panel active">
+      <table>
+        <thead><tr><th>ID</th><th>Product</th><th>Category</th><th>Unit Price</th><th>In Stock</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>001</td><td>Organic Rolled Oats</td><td>Grains</td><td>$4.99</td><td>142</td><td><span class="badge badge-green">In Stock</span></td></tr>
+          <tr><td>002</td><td>Oat Almond Milk</td><td>Dairy Alt.</td><td>$3.49</td><td>8</td><td><span class="badge badge-yellow">Low Stock</span></td></tr>
+          <tr><td>003</td><td>Roma Tomatoes (lb)</td><td>Produce</td><td>$1.29</td><td>0</td><td><span class="badge badge-red">Out of Stock</span></td></tr>
+          <tr><td>004</td><td>Artisan Sourdough</td><td>Bakery</td><td>$5.49</td><td>34</td><td><span class="badge badge-green">In Stock</span></td></tr>
+          <tr><td>005</td><td>Free Range Eggs (12)</td><td>Dairy</td><td>$6.99</td><td>21</td><td><span class="badge badge-green">In Stock</span></td></tr>
+          <tr><td>006</td><td>Heirloom Carrots</td><td>Produce</td><td>$2.49</td><td>67</td><td><span class="badge badge-green">In Stock</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="orders" class="demo-panel">
+      <div class="order-card"><div><div class="order-id">#ORD-2041</div><div class="order-items">Organic Oats × 2, Sourdough × 1, Eggs × 1</div></div><div class="order-meta"><div class="order-total">$22.46</div><span class="badge badge-green">Delivered</span></div></div>
+      <div class="order-card"><div><div class="order-id">#ORD-2042</div><div class="order-items">Almond Milk × 3, Carrots × 2</div></div><div class="order-meta"><div class="order-total">$15.45</div><span class="badge badge-green">Shipped</span></div></div>
+      <div class="order-card"><div><div class="order-id">#ORD-2043</div><div class="order-items">Sourdough × 2, Eggs × 2, Carrots × 1</div></div><div class="order-meta"><div class="order-total">$27.44</div><span class="badge badge-yellow">Processing</span></div></div>
+    </div>
+    <div id="sql" class="demo-panel">
+      <div class="code-block"><span class="comment">-- Get all low-stock items (under 10 units)</span>
+SELECT p.product_name, p.stock_qty, c.category_name
+FROM products p
+JOIN categories c ON p.category_id = c.id
+WHERE p.stock_qty &lt; 10
+ORDER BY p.stock_qty ASC;</div>
+      <div class="code-block"><span class="comment">-- Place an order (atomic transaction)</span>
+START TRANSACTION;
+INSERT INTO orders (customer_id, total) VALUES (44, 22.46);
+UPDATE products SET stock_qty = stock_qty - 2 WHERE id = 1;
+COMMIT;</div>
+      <div class="code-block"><span class="comment">-- Revenue by category this week</span>
+SELECT c.category_name, SUM(oi.qty * p.price) AS revenue
+FROM order_items oi
+JOIN products p ON oi.product_id = p.id
+JOIN categories c ON p.category_id = c.id
+GROUP BY c.category_name ORDER BY revenue DESC;</div>
+      <p class="code-success">✓ Query executed · 4 rows returned · 2ms</p>
     </div>
   </div>
 </section>
 
-<!-- TECH STACK -->
-<div id="tech" style="background: var(--warm-white); padding: 6rem 0;">
-  <div class="inner" style="max-width: 1300px; margin: 0 auto; padding: 0 5rem;">
-    <p class="section-tag">Tech stack</p>
-    <h2 class="section-heading">Built with <em>purpose-fit</em> tools.</h2>
+<section id="tech">
+  <div class="container">
+    <p class="section-label">Tech Stack</p>
+    <h2 class="section-title">Built with <em>purpose-fit</em> tools.</h2>
     <div class="tech-grid">
-      <div class="tech-pill"><span class="icon">🐍</span> Python</div>
-      <div class="tech-pill"><span class="icon">🌶️</span> Flask</div>
-      <div class="tech-pill"><span class="icon">🗄️</span> MySQL</div>
-      <div class="tech-pill"><span class="icon">🌐</span> HTML5</div>
-      <div class="tech-pill"><span class="icon">🎨</span> CSS3</div>
-      <div class="tech-pill"><span class="icon">⚡</span> JavaScript</div>
-      <div class="tech-pill"><span class="icon">🔌</span> REST API</div>
+      <div class="tech-pill">🐍 Python</div>
+      <div class="tech-pill">🌶️ Flask</div>
+      <div class="tech-pill">🗄️ MySQL</div>
+      <div class="tech-pill">🌐 HTML5</div>
+      <div class="tech-pill">🎨 CSS3</div>
+      <div class="tech-pill">⚡ JavaScript</div>
+      <div class="tech-pill">🔌 REST API</div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- CONTACT -->
-<section>
-  <div class="oss-wrap">
-    <div>
-      <h3>Want to learn more?</h3>
-      <p>Interested in the project or want to connect? Feel free to reach out.</p>
-      <div class="oss-btns">
-        <a href="mailto:roopasrinivas@berkeley.edu" class="btn-primary">Get in touch</a>
-        <a href="https://linkedin.com/in/roopa-srinivas" class="btn-ghost" target="_blank">LinkedIn →</a>
-      </div>
+<section id="cta">
+  <div class="container">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Want to learn <em>more?</em></h2>
+    <p>Interested in the project or want to connect? Feel free to reach out.</p>
+    <div class="cta-buttons">
+      <a class="btn btn-dark" href="mailto:roopasrinivas@berkeley.edu">Get in Touch</a>
+      <a class="btn btn-outline-dark" href="https://linkedin.com/in/roopa-srinivas/" target="_blank">LinkedIn →</a>
     </div>
-    <div style="font-size:4rem; opacity:0.15">🛒</div>
   </div>
 </section>
 
 <footer>
-  <p><strong>Roopa Srinivas</strong> · UC Berkeley EECS '27 · <a href="mailto:roopasrinivas@berkeley.edu">roopasrinivas@berkeley.edu</a></p>
+  <a href="https://roopa-srinivas.github.io/">Roopa Srinivas</a> &nbsp;·&nbsp; UC Berkeley EECS '27 &nbsp;·&nbsp; <a href="mailto:roopasrinivas@berkeley.edu">roopasrinivas@berkeley.edu</a>
 </footer>
 
 <script>
-  function switchTab(el, panel) {
-    document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('panel-' + panel).classList.add('active');
-  }
+function showTab(id, btn) {
+  document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.demo-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
 </script>
 </body>
 </html>
