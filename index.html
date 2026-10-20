@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Grocery Store App — Roopa Srinivas</title>
+<meta name="description" content="A grocery storefront and manager tools on MySQL and Flask, with orders that can never oversell, tested against a real MySQL server."/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,37 +42,9 @@ section { padding: 7rem 0; }
 #hero::before { content: ''; position: absolute; top: -120px; right: -120px; width: 520px; height: 520px; border-radius: 50%; background: var(--green-mid); opacity: 0.4; pointer-events: none; }
 #hero::after { content: ''; position: absolute; bottom: -80px; left: -80px; width: 300px; height: 300px; border-radius: 50%; background: var(--green-light); opacity: 0.15; pointer-events: none; }
 #hero .container { max-width: 1100px; padding: 0 1rem; }
-.hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; width: 100%; }
+.hero-inner { display: grid; grid-template-columns: 1fr 1.25fr; gap: 2.5rem; align-items: center; width: 100%; }
 .hero-text { position: relative; z-index: 1; }
 .app-wrap { position: relative; z-index: 1; animation: fadeUp 0.8s 0.2s ease both; }
-.app-frame { border-radius: 16px; overflow: hidden; border: 1px solid rgba(82,183,136,0.3); box-shadow: 0 24px 60px rgba(0,0,0,0.35); background: #f8faf6; font-family: var(--sans); }
-.app-chrome { background: var(--green); padding: 0.6rem 1rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(82,183,136,0.25); }
-.app-chrome-title { color: var(--green-light); font-weight: 500; font-size: 0.82rem; }
-.app-chrome-tabs { display: flex; gap: 0.25rem; }
-.app-chrome-tab { font-size: 0.68rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 100px; color: rgba(244,240,232,0.5); }
-.app-chrome-tab.active { background: rgba(82,183,136,0.25); color: var(--green-light); }
-.app-body { padding: 0.9rem; }
-.app-search { display: flex; align-items: center; gap: 0.5rem; background: #fff; border: 1px solid #d4e8cc; border-radius: 100px; padding: 0.4rem 0.8rem; margin-bottom: 0.8rem; }
-.app-search-text { font-size: 0.72rem; color: #aabaa0; }
-.app-filter-row { display: flex; gap: 0.35rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
-.app-filter { font-size: 0.65rem; font-weight: 600; padding: 0.2rem 0.65rem; border-radius: 100px; border: 1px solid #c8dfc0; color: #4a7a50; background: #fff; }
-.app-filter.active { background: var(--green); color: var(--green-light); border-color: var(--green); }
-.app-product-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.9rem; }
-.app-product-card { background: #fff; border: 1px solid #d4e8cc; border-radius: 8px; padding: 0.55rem 0.5rem; text-align: center; }
-.app-product-emoji { font-size: 1.4rem; margin-bottom: 0.25rem; }
-.app-product-name { font-size: 0.62rem; font-weight: 600; color: #2a4a2a; margin-bottom: 0.1rem; line-height: 1.3; }
-.app-product-price { font-size: 0.65rem; color: var(--green-mid); font-weight: 600; margin-bottom: 0.3rem; }
-.app-add-btn { font-size: 0.6rem; font-weight: 600; background: var(--green); color: var(--green-light); border: none; border-radius: 100px; padding: 0.18rem 0.5rem; cursor: default; width: 100%; }
-.app-stock-low { font-size: 0.55rem; color: #b85a00; font-weight: 600; margin-top: 0.15rem; }
-.app-cart { background: var(--green); border-radius: 10px; padding: 0.65rem 0.8rem; display: flex; align-items: center; justify-content: space-between; }
-.app-cart-info { display: flex; align-items: center; gap: 0.5rem; }
-.app-cart-label { font-size: 0.7rem; font-weight: 600; color: var(--green-light); }
-.app-cart-sub { font-size: 0.6rem; color: rgba(82,183,136,0.7); }
-.app-cart-total { font-size: 0.85rem; font-weight: 600; color: var(--cream); }
-.app-checkout-btn { font-size: 0.65rem; font-weight: 600; background: var(--green-light); color: var(--green); border: none; border-radius: 100px; padding: 0.3rem 0.75rem; cursor: default; }
-.app-sql { margin-top: 0.8rem; background: #0D1F18; border-radius: 8px; padding: 0.65rem 0.8rem; font-family: 'Courier New', monospace; font-size: 0.6rem; line-height: 1.7; color: var(--green-light); }
-.app-sql .comment { color: #3a6a50; }
-.app-sql-result { font-size: 0.58rem; color: #74C69D; margin-top: 0.3rem; }
 @media (max-width: 800px) { .hero-inner { grid-template-columns: 1fr; gap: 3rem; } .app-wrap { display: none; } }
 
 .hero-eyebrow { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-light); margin-bottom: 1.25rem; }
@@ -134,7 +107,7 @@ tr:last-child td { border-bottom: none; }
 .order-meta { text-align: right; }
 .order-total { font-weight: 500; font-size: 0.9rem; color: var(--ink); }
 .code-block { background: #0D1F18; color: var(--green-light); border-radius: 2px; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.8; overflow-x: auto; margin-bottom: 1rem; }
-.code-block .comment { color: #52886a; }
+.code-block .comment { color: #86b89c; }
 .code-success { font-size: 0.78rem; color: var(--green-light); padding: 0.5rem 0; }
 
 #tech { background: var(--cream); }
@@ -173,6 +146,19 @@ footer a:hover { color: var(--green-light); }
   /* Too many section links for a phone; the back button and title stay. */
   .nav-links { display: none; }
 }
+/* Rebuild: real screenshots, tests. */
+.hero-shot { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid rgba(82,183,136,0.3); box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+.shot { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 16px 40px -18px rgba(26,60,46,0.4); }
+code { font-family: ui-monospace, Menlo, monospace; font-size: 0.85em; background: rgba(26,60,46,0.08); padding: 0.05rem 0.3rem; border-radius: 4px; }
+pre.code-block { white-space: pre; }
+#tests { background: var(--cream); }
+.test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+.test { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
+.test b { font-weight: 500; }
+.test b::before { content: "✓ "; color: var(--green-mid); }
+.test span { font-size: 0.875rem; color: var(--muted); font-weight: 300; line-height: 1.6; }
+.run-title { margin: 2.5rem 0 0.75rem; font-weight: 500; color: var(--ink); }
+@media (max-width: 800px) { .steps { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
@@ -185,9 +171,9 @@ footer a:hover { color: var(--green-light); }
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#how">How It Works</a></li>
-    <li><a href="#demo">Demo</a></li>
-    <li><a href="#tech">Tech Stack</a></li>
-    <li><a href="mailto:roopasrinivas@berkeley.edu">Contact</a></li>
+    <li><a href="#demo">Screenshots</a></li>
+    <li><a href="#tests">Tests</a></li>
+    <li><a href="https://github.com/roopa-srinivas/GroceryStoreApplication" target="_blank" rel="noopener">Code</a></li>
   </ul>
 </nav>
 
@@ -195,113 +181,26 @@ footer a:hover { color: var(--green-light); }
   <div class="container">
     <div class="hero-inner">
       <div class="hero-text">
-        <p class="hero-eyebrow">Full-Stack · Database · Web App</p>
+        <p class="hero-eyebrow">Full-Stack · Database · Rebuilt in 2026</p>
         <h1 class="hero-name">A grocery store that<br><em>actually</em> knows its inventory.</h1>
-        <p class="hero-desc">A full-stack database application for managing grocery inventory and web orders — with a relational MySQL backend, Flask API, and a clean storefront interface.</p>
+        <p class="hero-desc">A storefront and manager tools for a grocery store, on a relational MySQL database behind a Flask API. Orders take stock in a single atomic step, so two shoppers can never buy the same last item, and the tests prove it against a real MySQL server.</p>
         <div class="hero-links">
-          <a class="btn btn-primary" href="#demo">Explore the App</a>
-          <a class="btn btn-ghost" href="#features">See Features</a>
+          <a class="btn btn-primary" href="https://github.com/roopa-srinivas/GroceryStoreApplication" target="_blank" rel="noopener">View the code →</a>
+          <a class="btn btn-ghost" href="#demo">See it running</a>
         </div>
       </div>
       <div class="app-wrap">
-        <div class="app-frame">
-          <!-- Chrome bar -->
-          <div class="app-chrome">
-            <span class="app-chrome-title">🛒 Fresh Market</span>
-            <div class="app-chrome-tabs">
-              <span class="app-chrome-tab active">Shop</span>
-              <span class="app-chrome-tab">Orders</span>
-              <span class="app-chrome-tab">Admin</span>
-            </div>
-          </div>
-          <div class="app-body">
-            <!-- Search -->
-            <div class="app-search">
-              <span class="app-search-text">🔍&nbsp; Search products...</span>
-            </div>
-            <!-- Category filters -->
-            <div class="app-filter-row">
-              <span class="app-filter active">All</span>
-              <span class="app-filter">Produce</span>
-              <span class="app-filter">Dairy</span>
-              <span class="app-filter">Bakery</span>
-              <span class="app-filter">Grains</span>
-            </div>
-            <!-- Product grid -->
-            <div class="app-product-grid">
-              <div class="app-product-card">
-                <div class="app-product-emoji">🥚</div>
-                <div class="app-product-name">Free Range Eggs</div>
-                <div class="app-product-price">$6.99</div>
-                <button class="app-add-btn">+ Add</button>
-              </div>
-              <div class="app-product-card">
-                <div class="app-product-emoji">🍞</div>
-                <div class="app-product-name">Artisan Sourdough</div>
-                <div class="app-product-price">$5.49</div>
-                <button class="app-add-btn">+ Add</button>
-              </div>
-              <div class="app-product-card">
-                <div class="app-product-emoji">🥛</div>
-                <div class="app-product-name">Oat Almond Milk</div>
-                <div class="app-product-price">$3.49</div>
-                <button class="app-add-btn">+ Add</button>
-                <div class="app-stock-low">⚠ Low stock</div>
-              </div>
-              <div class="app-product-card">
-                <div class="app-product-emoji">🥕</div>
-                <div class="app-product-name">Heirloom Carrots</div>
-                <div class="app-product-price">$2.49</div>
-                <button class="app-add-btn">+ Add</button>
-              </div>
-              <div class="app-product-card">
-                <div class="app-product-emoji">🌾</div>
-                <div class="app-product-name">Organic Oats</div>
-                <div class="app-product-price">$4.99</div>
-                <button class="app-add-btn">+ Add</button>
-              </div>
-              <div class="app-product-card" style="opacity:0.5;">
-                <div class="app-product-emoji">🍅</div>
-                <div class="app-product-name">Roma Tomatoes</div>
-                <div class="app-product-price">$1.29</div>
-                <button class="app-add-btn" style="background:#888;">Out of stock</button>
-              </div>
-            </div>
-            <!-- Cart strip -->
-            <div class="app-cart">
-              <div class="app-cart-info">
-                <span style="font-size:1.1rem;">🛒</span>
-                <div>
-                  <div class="app-cart-label">3 items in cart</div>
-                  <div class="app-cart-sub">Oats, Sourdough, Eggs</div>
-                </div>
-              </div>
-              <div style="display:flex;align-items:center;gap:0.6rem;">
-                <span class="app-cart-total">$17.47</span>
-                <button class="app-checkout-btn">Checkout →</button>
-              </div>
-            </div>
-            <!-- SQL snippet -->
-            <div class="app-sql">
-              <span class="comment">-- Live inventory check</span><br>
-              SELECT product_name, stock_qty<br>
-              FROM inventory<br>
-              WHERE stock_qty &lt; 10<br>
-              ORDER BY stock_qty ASC;
-              <div class="app-sql-result">✓ 1 row returned · Almond Milk (qty: 8) · 1ms</div>
-            </div>
-          </div>
-        </div>
+        <img class="hero-shot" src="screenshots/shop.jpg" width="1541" height="784" alt="The Fresh Market storefront: product cards with prices and stock warnings, category filters, and a cart with three items totaling $28.66."/>
       </div>
     </div>
   </div>
 </section>
 
 <div class="stats-strip">
-  <div class="stat"><div class="stat-num">3-tier</div><div class="stat-label">Architecture</div></div>
-  <div class="stat"><div class="stat-num">MySQL</div><div class="stat-label">Relational database</div></div>
-  <div class="stat"><div class="stat-num">REST</div><div class="stat-label">Flask API backend</div></div>
-  <div class="stat"><div class="stat-num">Full</div><div class="stat-label">CRUD operations</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">Related MySQL tables</div></div>
+  <div class="stat"><div class="stat-num">9</div><div class="stat-label">REST API endpoints</div></div>
+  <div class="stat"><div class="stat-num">22</div><div class="stat-label">Automated tests</div></div>
+  <div class="stat"><div class="stat-num">0</div><div class="stat-label">Oversold items with 20 shoppers racing</div></div>
 </div>
 
 <section id="features">
@@ -309,76 +208,79 @@ footer a:hover { color: var(--green-light); }
     <p class="section-label">What it does</p>
     <h2 class="section-title">Built around the <em>database</em> —<br>not bolted on top of it.</h2>
     <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon">🗄️</div><div class="feature-title">Relational MySQL Schema</div><p class="feature-desc">Normalized tables for products, categories, customers, and orders — with foreign keys and constraints that keep data consistent across every operation.</p></div>
-      <div class="feature-card"><div class="feature-icon">🔌</div><div class="feature-title">Flask REST API</div><p class="feature-desc">A Python Flask backend bridges the database and the frontend — handling CRUD routes for inventory management and order processing cleanly and efficiently.</p></div>
-      <div class="feature-card"><div class="feature-icon">📦</div><div class="feature-title">Inventory Management</div><p class="feature-desc">Add, update, and remove products with real-time stock tracking. Low-stock items are flagged automatically so nothing runs out unnoticed.</p></div>
-      <div class="feature-card"><div class="feature-icon">🛒</div><div class="feature-title">Web Order Processing</div><p class="feature-desc">Customers can browse products and place orders through the storefront. Each order updates inventory atomically — no overselling, no race conditions.</p></div>
-      <div class="feature-card"><div class="feature-icon">🔍</div><div class="feature-title">Search & Filter</div><p class="feature-desc">Query products by name, category, or price range. Backed by indexed SQL queries so results stay fast even as the catalog grows.</p></div>
-      <div class="feature-card"><div class="feature-icon">📊</div><div class="feature-title">Order Dashboard</div><p class="feature-desc">A management view surfaces all orders with status tracking — pending, shipped, delivered — so fulfillment is always visible at a glance.</p></div>
+      <div class="feature-card"><div class="feature-icon">🗄️</div><div class="feature-title">Relational MySQL schema</div><p class="feature-desc">Categories, products, customers, orders and order items, with foreign keys, unique SKUs and emails, CHECK constraints (stock can't go negative), and indexes on the columns the app searches and sorts by.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔌</div><div class="feature-title">Flask REST API</div><p class="feature-desc">JSON endpoints for searching the catalog, adding and editing products, restocking, placing orders, moving them through their statuses, and running reports. Every page in the app is built on it.</p></div>
+      <div class="feature-card"><div class="feature-icon">🛒</div><div class="feature-title">No overselling</div><p class="feature-desc">An order takes stock with <code>UPDATE … WHERE stock_qty &gt;= qty</code>, inside one transaction. If any item is short, the whole order rolls back and the shopper is told which item, with their cart intact.</p></div>
+      <div class="feature-card"><div class="feature-icon">📦</div><div class="feature-title">Inventory management</div><p class="feature-desc">Search stock, see what's low or out, restock (added in SQL, so it never overwrites a sale happening at the same moment), add products, and retire them without breaking past orders.</p></div>
+      <div class="feature-card"><div class="feature-icon">🚚</div><div class="feature-title">Order tracking</div><p class="feature-desc">Orders move from processing to shipped to delivered. Cancelling a processing order puts its items back on the shelf; the API refuses moves that don't make sense, like un-delivering.</p></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><div class="feature-title">Reports in plain SQL</div><p class="feature-desc">Revenue by category, top sellers, low stock and orders by status, written as readable SQL that the reports page shows. Revenue uses the price each item sold for, not today's price.</p></div>
     </div>
   </div>
 </section>
 
 <section id="how">
   <div class="container">
-    <p class="section-label">How it works</p>
-    <h2 class="section-title">From storefront to database<br><em>in four steps.</em></h2>
+    <p class="section-label">How an order works</p>
+    <h2 class="section-title">From cart to database <em>atomically.</em></h2>
     <div class="steps">
-      <div class="step"><div class="step-num">01</div><div class="step-title">Browse the catalog</div><p class="step-desc">The storefront fetches products from the Flask API, which queries MySQL for current inventory, pricing, and availability in real time.</p></div>
-      <div class="step"><div class="step-num">02</div><div class="step-title">Add to cart & order</div><p class="step-desc">Cart state is managed client-side. On checkout, the order payload is sent to the Flask API, which validates stock before writing to the orders table.</p></div>
-      <div class="step"><div class="step-num">03</div><div class="step-title">Database updates atomically</div><p class="step-desc">A single transaction deducts stock and inserts the order record — so inventory is always accurate, even under concurrent requests.</p></div>
-      <div class="step"><div class="step-num">04</div><div class="step-title">Admin views & queries</div><p class="step-desc">The management dashboard surfaces live inventory counts, order statuses, and low-stock alerts — all driven by SQL queries against the live database.</p></div>
+      <div class="step"><div class="step-num">01</div><div class="step-title">Browse</div><p class="step-desc">The storefront calls <code>GET /api/products</code> with search, category, price and in-stock filters; MySQL does the filtering and sorting.</p></div>
+      <div class="step"><div class="step-num">02</div><div class="step-title">Check out</div><p class="step-desc">The cart lives in the browser. Checkout sends one <code>POST /api/orders</code> with the shopper and each product's quantity.</p></div>
+      <div class="step"><div class="step-num">03</div><div class="step-title">Take the stock</div><p class="step-desc">In one transaction, each product's stock drops only if enough is left, in id order so concurrent orders can't deadlock. Any shortfall rolls everything back.</p></div>
+      <div class="step"><div class="step-num">04</div><div class="step-title">Record the order</div><p class="step-desc">The order and its items are saved with the prices paid, so later price changes never rewrite history or revenue.</p></div>
     </div>
   </div>
 </section>
 
 <section id="demo">
   <div class="container">
-    <p class="section-label">Demo</p>
-    <h2 class="section-title">Explore the <em>interface.</em></h2>
-    <p class="section-sub">A walkthrough of the three core views: inventory management, order tracking, and the SQL queries powering it all.</p>
-    <div class="demo-tabs">
-      <button class="demo-tab active" onclick="showTab('inventory', this)">Inventory</button>
-      <button class="demo-tab" onclick="showTab('orders', this)">Orders</button>
-      <button class="demo-tab" onclick="showTab('sql', this)">SQL Queries</button>
+    <p class="section-label">See it running</p>
+    <h2 class="section-title">The <em>real</em> interface.</h2>
+    <p class="section-sub">Screenshots from the app running locally with its sample data (<code>flask seed</code>): a 23-product store with two weeks of orders.</p>
+    <div class="demo-tabs" role="tablist">
+      <button class="demo-tab active" role="tab" onclick="showTab('t-shop', this)">Shop</button>
+      <button class="demo-tab" role="tab" onclick="showTab('t-orders', this)">Orders</button>
+      <button class="demo-tab" role="tab" onclick="showTab('t-inventory', this)">Inventory</button>
+      <button class="demo-tab" role="tab" onclick="showTab('t-reports', this)">Reports</button>
+      <button class="demo-tab" role="tab" onclick="showTab('t-code', this)">Order code</button>
     </div>
-    <div id="inventory" class="demo-panel active">
-      <table>
-        <thead><tr><th>ID</th><th>Product</th><th>Category</th><th>Unit Price</th><th>In Stock</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td>001</td><td>Organic Rolled Oats</td><td>Grains</td><td>$4.99</td><td>142</td><td><span class="badge badge-green">In Stock</span></td></tr>
-          <tr><td>002</td><td>Oat Almond Milk</td><td>Dairy Alt.</td><td>$3.49</td><td>8</td><td><span class="badge badge-yellow">Low Stock</span></td></tr>
-          <tr><td>003</td><td>Roma Tomatoes (lb)</td><td>Produce</td><td>$1.29</td><td>0</td><td><span class="badge badge-red">Out of Stock</span></td></tr>
-          <tr><td>004</td><td>Artisan Sourdough</td><td>Bakery</td><td>$5.49</td><td>34</td><td><span class="badge badge-green">In Stock</span></td></tr>
-          <tr><td>005</td><td>Free Range Eggs (12)</td><td>Dairy</td><td>$6.99</td><td>21</td><td><span class="badge badge-green">In Stock</span></td></tr>
-          <tr><td>006</td><td>Heirloom Carrots</td><td>Produce</td><td>$2.49</td><td>67</td><td><span class="badge badge-green">In Stock</span></td></tr>
-        </tbody>
-      </table>
+    <div id="t-shop" class="demo-panel active"><img class="shot" src="screenshots/shop.jpg" loading="lazy" alt="Storefront with search, category chips, product cards and a cart." width="1541" height="784"/></div>
+    <div id="t-orders" class="demo-panel"><img class="shot" src="screenshots/orders.jpg" loading="lazy" alt="Orders table with status badges and Mark shipped, Cancel and Mark delivered buttons." width="1541" height="784"/></div>
+    <div id="t-inventory" class="demo-panel"><img class="shot" src="screenshots/inventory.jpg" loading="lazy" alt="Inventory with totals, low and out of stock badges, and restock controls." width="1541" height="784"/></div>
+    <div id="t-reports" class="demo-panel"><img class="shot" src="screenshots/reports.jpg" loading="lazy" alt="Reports: revenue by category with its SQL query shown, and top products." width="1455" height="823"/></div>
+    <div id="t-code" class="demo-panel">
+<pre class="code-block"><span class="comment"># app/orders.py: take the stock, or take nothing</span>
+for product_id in sorted(lines):          <span class="comment"># id order: no deadlocks</span>
+    result = session.execute(
+        update(Product)
+        .where(Product.id == product_id,
+               Product.is_active.is_(True),
+               Product.stock_qty &gt;= lines[product_id])
+        .values(stock_qty=Product.stock_qty - lines[product_id])
+    )
+    if result.rowcount != 1:
+        short.append(product_id)
+if short:
+    raise OrderError("Some items don't have enough stock.",
+                     status=409, details={"short": short})
+<span class="comment"># ...then save the order with the prices paid, and commit.
+# Any error above rolls the whole transaction back.</span></pre>
+      <p class="code-success">✓ Checking and taking the stock is one statement, so the database decides who gets the last item.</p>
     </div>
-    <div id="orders" class="demo-panel">
-      <div class="order-card"><div><div class="order-id">#ORD-2041</div><div class="order-items">Organic Oats × 2, Sourdough × 1, Eggs × 1</div></div><div class="order-meta"><div class="order-total">$22.46</div><span class="badge badge-green">Delivered</span></div></div>
-      <div class="order-card"><div><div class="order-id">#ORD-2042</div><div class="order-items">Almond Milk × 3, Carrots × 2</div></div><div class="order-meta"><div class="order-total">$15.45</div><span class="badge badge-green">Shipped</span></div></div>
-      <div class="order-card"><div><div class="order-id">#ORD-2043</div><div class="order-items">Sourdough × 2, Eggs × 2, Carrots × 1</div></div><div class="order-meta"><div class="order-total">$27.44</div><span class="badge badge-yellow">Processing</span></div></div>
-    </div>
-    <div id="sql" class="demo-panel">
-      <div class="code-block"><span class="comment">-- Get all low-stock items (under 10 units)</span>
-SELECT p.product_name, p.stock_qty, c.category_name
-FROM products p
-JOIN categories c ON p.category_id = c.id
-WHERE p.stock_qty &lt; 10
-ORDER BY p.stock_qty ASC;</div>
-      <div class="code-block"><span class="comment">-- Place an order (atomic transaction)</span>
-START TRANSACTION;
-INSERT INTO orders (customer_id, total) VALUES (44, 22.46);
-UPDATE products SET stock_qty = stock_qty - 2 WHERE id = 1;
-COMMIT;</div>
-      <div class="code-block"><span class="comment">-- Revenue by category this week</span>
-SELECT c.category_name, SUM(oi.qty * p.price) AS revenue
-FROM order_items oi
-JOIN products p ON oi.product_id = p.id
-JOIN categories c ON p.category_id = c.id
-GROUP BY c.category_name ORDER BY revenue DESC;</div>
-      <p class="code-success">✓ Query executed · 4 rows returned · 2ms</p>
+  </div>
+</section>
+
+<section id="tests">
+  <div class="container">
+    <p class="section-label">Tested</p>
+    <h2 class="section-title">Proven against <em>real MySQL.</em></h2>
+    <p class="section-sub">Every push runs the test suite twice in GitHub Actions: on SQLite, and on a MySQL 8.4 server.</p>
+    <div class="test-grid">
+      <div class="test"><b>Race for the last items</b><span>20 shoppers order the same product at the same instant. Exactly as many succeed as there are units; stock ends at 0, never below.</span></div>
+      <div class="test"><b>All or nothing</b><span>An order with one short item changes nothing, not even the items that were available.</span></div>
+      <div class="test"><b>Prices paid are kept</b><span>Changing a price afterwards leaves past orders and revenue untouched.</span></div>
+      <div class="test"><b>Status rules</b><span>Delivered orders can't be cancelled; cancelling restocks; unknown orders are 404s.</span></div>
+      <div class="test"><b>Search is safe</b><span>Filters validate their input, and a search for "%" means the character, not a wildcard.</span></div>
+      <div class="test"><b>Reports add up</b><span>Revenue skips cancelled orders and uses prices at the time of sale.</span></div>
     </div>
   </div>
 </section>
@@ -390,29 +292,35 @@ GROUP BY c.category_name ORDER BY revenue DESC;</div>
     <div class="tech-grid">
       <div class="tech-pill">🐍 Python</div>
       <div class="tech-pill">🌶️ Flask</div>
-      <div class="tech-pill">🗄️ MySQL</div>
-      <div class="tech-pill">🌐 HTML5</div>
-      <div class="tech-pill">🎨 CSS3</div>
+      <div class="tech-pill">🗄️ MySQL 8</div>
+      <div class="tech-pill">🧱 SQLAlchemy 2</div>
       <div class="tech-pill">⚡ JavaScript</div>
-      <div class="tech-pill">🔌 REST API</div>
+      <div class="tech-pill">🧪 pytest</div>
+      <div class="tech-pill">✅ GitHub Actions</div>
     </div>
+    <p class="section-sub run-title">Run it yourself</p>
+<pre class="code-block">pip install -r requirements.txt
+export DATABASE_URL="mysql+pymysql://user:pass@localhost/grocery"   <span class="comment"># or skip for SQLite</span>
+flask --app app init-db
+flask --app app seed
+flask --app app run</pre>
   </div>
 </section>
 
 <section id="cta">
   <div class="container">
-    <p class="section-label">Get in Touch</p>
-    <h2 class="section-title">Want to learn <em>more?</em></h2>
-    <p>Interested in the project or want to connect? Feel free to reach out.</p>
+    <p class="section-label">About this project</p>
+    <h2 class="section-title">Rebuilt, <em>and tested.</em></h2>
+    <p>I first built this store app with Flask and MySQL. In 2026 I rebuilt it from scratch, with a tested order system and real manager tools.</p>
     <div class="cta-buttons">
-      <a class="btn btn-dark" href="mailto:roopasrinivas@berkeley.edu">Get in Touch</a>
-      <a class="btn btn-outline-dark" href="https://linkedin.com/in/roopa-srinivas/" target="_blank">LinkedIn →</a>
+      <a class="btn btn-dark" href="https://github.com/roopa-srinivas/GroceryStoreApplication" target="_blank" rel="noopener">View the code →</a>
+      <a class="btn btn-outline-dark" href="mailto:roopasrinivas@berkeley.edu">Get in touch</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <a href="https://roopa-srinivas.github.io/">Roopa Srinivas</a> &nbsp;·&nbsp; UC Berkeley EECS '27 &nbsp;·&nbsp; <a href="mailto:roopasrinivas@berkeley.edu">roopasrinivas@berkeley.edu</a>
+  <a href="https://roopa-srinivas.github.io/">Roopa Srinivas</a> &nbsp;·&nbsp; <a href="mailto:roopasrinivas@berkeley.edu">roopasrinivas@berkeley.edu</a>
 </footer>
 
 <script>
