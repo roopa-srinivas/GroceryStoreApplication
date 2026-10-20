@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Inventory · Fresh Market{% endblock %}
+{% block main %}
+<h1>Inventory</h1>
+<div class="stats" id="stats"></div>
+<div class="toolbar">
+  <input id="search" type="search" placeholder="Search inventory…" aria-label="Search inventory"/>
+  <label class="check"><input id="low-only" type="checkbox"/> Low or out of stock only</label>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>SKU</th><th>Product</th><th>Category</th><th class="num">Price</th><th class="num">In stock</th><th>Status</th><th>Restock</th></tr></thead>
+    <tbody id="inventory"></tbody>
+  </table>
+</div>
+<details class="add">
+  <summary>Add a product</summary>
+  <form id="add-product" class="form-grid">
+    <input name="sku" placeholder="SKU (e.g. PRD-007)" required/>
+    <input name="name" placeholder="Name" required/>
+    <select name="category_id" id="add-category" required></select>
+    <input name="price" type="number" min="0.01" step="0.01" placeholder="Price ($)" required/>
+    <input name="stock_qty" type="number" min="0" step="1" placeholder="Starting stock" required/>
+    <input name="emoji" placeholder="Emoji (optional)" maxlength="4"/>
+    <button class="btn" type="submit">Add product</button>
+  </form>
+</details>
+{% endblock %}

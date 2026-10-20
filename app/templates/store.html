@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Shop · Fresh Market{% endblock %}
+{% block main %}
+<div class="store">
+  <section>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Search products…" aria-label="Search products"/>
+      <select id="sort" aria-label="Sort">
+        <option value="name">Name</option>
+        <option value="price_asc">Price: low to high</option>
+        <option value="price_desc">Price: high to low</option>
+      </select>
+      <label class="check"><input id="in-stock" type="checkbox"/> In stock only</label>
+    </div>
+    <div class="chips" id="categories" role="group" aria-label="Category"></div>
+    <div class="products" id="products" aria-live="polite"></div>
+  </section>
+  <aside class="cart" aria-labelledby="cart-title">
+    <h2 id="cart-title">Your cart</h2>
+    <div id="cart-items"></div>
+    <div class="cart-total"><span>Total</span><b id="cart-total">$0.00</b></div>
+    <form id="checkout">
+      <input name="name" placeholder="Your name" autocomplete="name" required/>
+      <input name="email" type="email" placeholder="Email" autocomplete="email" required/>
+      <button class="btn" type="submit">Place order</button>
+    </form>
+    <p class="muted small">Demo store: no payment is taken.</p>
+  </aside>
+</div>
+{% endblock %}
