@@ -1,0 +1,46 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  sqlite:
+    name: tests (SQLite)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: pytest -q
+
+  mysql:
+    name: tests (MySQL 8.4, including concurrent orders)
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: ci-only-password
+          MYSQL_DATABASE: grocery_test
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -pci-only-password"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      DATABASE_URL: mysql+pymysql://root:ci-only-password@127.0.0.1:3306/grocery_test?charset=utf8mb4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: pytest -q -rs
