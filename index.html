@@ -163,12 +163,25 @@ footer a:hover { color: var(--green-light); }
 .hero-name { animation: fadeUp 0.6s 0.1s ease both; }
 .hero-desc { animation: fadeUp 0.6s 0.2s ease both; }
 .hero-links { animation: fadeUp 0.6s 0.3s ease both; }
+/* Back to the projects on roopa-srinivas.github.io, on every project page. */
+.nav-left { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+.nav-back { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; font-weight: 500; color: var(--muted); text-decoration: none; padding: 0.35rem 0.85rem; border: 1px solid var(--border); border-radius: 999px; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
+.nav-back:hover { color: var(--green-mid); border-color: var(--green-mid); }
+@media (max-width: 700px) {
+  .nav-back .long { display: none; }
+  .nav-logo { white-space: nowrap; font-size: 1.05rem; }
+  /* Too many section links for a phone; the back button and title stay. */
+  .nav-links { display: none; }
+}
 </style>
 </head>
 <body>
 
 <nav>
-  <a class="nav-logo" href="#">Grocery Store App</a>
+  <div class="nav-left">
+    <a class="nav-back" href="https://roopa-srinivas.github.io/#projects" aria-label="All projects by Roopa Srinivas">← <span class="long">All </span>projects</a>
+    <a class="nav-logo" href="#">Grocery Store App</a>
+  </div>
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#how">How It Works</a></li>
